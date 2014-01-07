@@ -35,18 +35,19 @@ void MoveAction::HandleMessage(Message* p_pMsg, bool& p_consumed)
 //----------------------------------------------------------------------------------------------
 bool MoveAction::AliveConditionsSatisfied()
 {
-    return (EngineAssist::Instance(g_Game).DoesEntityObjectExist(_entityId) && _pEntity->Attr(EOATTR_IsMoving) > 0);
+
+    return (g_Assist.DoesEntityObjectExist(_entityId) && _pEntity->Attr(EOATTR_IsMoving) > 0);
 }
 //----------------------------------------------------------------------------------------------
 bool MoveAction::PreconditionsSatisfied()
 {
     EntityClassType entity = (EntityClassType)_params[PARAM_EntityClassId];
-    return EngineAssist::Instance(g_Game).DoesEntityClassExist(MakePair(entity, 1));
+    return g_Assist.DoesEntityClassExist(MakePair(entity, 1));
 }
 //----------------------------------------------------------------------------------------------
 bool MoveAction::SuccessConditionsSatisfied()
 {
-    return EngineAssist::Instance(g_Game).IsEntityCloseToPoint(_entityId, _position, ENTITY_DEST_ARRIVAL_THRESHOLD_DISTANCE);
+    return g_Assist.IsEntityCloseToPoint(_entityId, _position, ENTITY_DEST_ARRIVAL_THRESHOLD_DISTANCE);
 }
 //----------------------------------------------------------------------------------------------
 void MoveAction::InitializeAddressesAux()

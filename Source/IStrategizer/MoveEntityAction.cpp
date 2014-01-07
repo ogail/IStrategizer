@@ -50,12 +50,12 @@ void MoveEntityAction::HandleMessage(Message* p_pMsg, bool& p_consumed)
 //////////////////////////////////////////////////////////////////////////
 bool MoveEntityAction::PreconditionsSatisfied()
 {
-    return EngineAssist::Instance(g_Game).DoesEntityObjectExist(_entityId);
+    return g_Assist.DoesEntityObjectExist(_entityId);
 }
 //////////////////////////////////////////////////////////////////////////
 bool MoveEntityAction::AliveConditionsSatisfied()
 {
-    bool success = EngineAssist::Instance(g_Game).DoesEntityObjectExist(_entityId);
+    bool success = g_Assist.DoesEntityObjectExist(_entityId);
 
     if(success)
     {
@@ -69,14 +69,14 @@ bool MoveEntityAction::AliveConditionsSatisfied()
 //////////////////////////////////////////////////////////////////////////
 bool MoveEntityAction::SuccessConditionsSatisfied()
 {
-    bool success = EngineAssist::Instance(g_Game).DoesEntityObjectExist(_entityId);
+    bool success = g_Assist.DoesEntityObjectExist(_entityId);
 
     if(success)
     {
         GameEntity* entity = g_Game->Self()->GetEntity(_entityId);
         assert(entity);
 
-        success = EngineAssist::Instance(g_Game).IsEntityCloseToPoint(_entityId, _position, ENTITY_DEST_ARRIVAL_THRESHOLD_DISTANCE)
+        success = g_Assist.IsEntityCloseToPoint(_entityId, _position, ENTITY_DEST_ARRIVAL_THRESHOLD_DISTANCE)
             && entity->Attr(EOATTR_IsMoving) == false;
     }
 

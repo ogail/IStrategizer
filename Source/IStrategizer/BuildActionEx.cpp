@@ -99,13 +99,13 @@ bool BuildActionEx::PreconditionsSatisfied()
     bool success = false;
 
     builderType = g_Game->Self()->GetWorkerType();
-    success = EngineAssist::Instance(g_Game).DoesEntityClassExist(make_pair(builderType, 1));
+    success = g_Assist.DoesEntityClassExist(make_pair(builderType, 1));
 
     if (!success)
         return false;
 
     buildingType = (EntityClassType)_params[PARAM_BuildingClassId];
-    ret = EngineAssist::Instance(g_Game).PrerequisitesSatisfied(buildingType, success);
+    ret = g_Assist.PrerequisitesSatisfied(buildingType, success);
 
     assert(ret == ERR_Success);
 
@@ -122,7 +122,7 @@ bool BuildActionEx::AliveConditionsSatisfied()
 
     assert(PlanStepEx::State() == ESTATE_Executing);
 
-    builderExist = EngineAssist::Instance(g_Game).DoesEntityObjectExist(_builderId);
+    builderExist = g_Assist.DoesEntityObjectExist(_builderId);
 
     if (builderExist)
     {
@@ -139,7 +139,7 @@ bool BuildActionEx::AliveConditionsSatisfied()
         {
             if (_buildStarted)
             {
-                buildingExist = EngineAssist::Instance(g_Game).DoesEntityObjectExist(_buildingId);
+                buildingExist = g_Assist.DoesEntityObjectExist(_buildingId);
 
                 if (buildingExist)
                 {
