@@ -4,6 +4,7 @@
 #include "Misc.h"
 #include "EngineData.h"
 #include "Expression.h"
+#include "RtsGame.h"
 #include <vector>
 #include <map>
 
@@ -17,14 +18,14 @@ namespace IStrategizer
     class EngineAssist
     {
     protected:
+        RtsGame* rtsGameInstance;
         EngineAssist() {}
 
     public:
-        static EngineAssist& Instance() { static EngineAssist m_instance; return m_instance; }
+        static EngineAssist& Instance(RtsGame* p_rtsGameInstance);
         CheckReturn int GetRequiredResources(IN PlayerType p_playerIndex, IN TID p_classId, OUT Cost& p_requiredCost);
         CheckReturn int GetRequiredBuildings(IN PlayerType p_playerIndex, IN TID p_classId, OUT vector<EntityClassType>& p_requiredBuildings);
         CheckReturn int GetRequiredResearches(IN PlayerType p_playerIndex, IN TID p_classId, OUT vector<ResearchType>& p_requiredResearches);
-        CheckReturn int GetEntityClassAttribute(IN PlayerType p_playerIndex, IN EntityClassType p_classId, IN EntityClassAttribute p_attributeId, OUT int& p_value);
         CheckReturn int GetEntityObjectAttribute(IN PlayerType p_playerIndex, IN TID p_entityObjectId, IN EntityObjectAttribute p_attributeId, OUT int& p_value);
         CheckReturn int GetEntityObjectFromEntityClass(IN PlayerType p_playerIndex, IN EntityClassType p_classId, IN const vector<TID>& p_execludedIds, OUT TID& p_objectId);
         CheckReturn int GetSourceBuilding(IN PlayerType p_playerIndex, IN TID p_entityClassId, OUT EntityClassType& p_sourceBuildingId);
@@ -55,8 +56,6 @@ namespace IStrategizer
         CheckReturn int PrerequisitesSatisfied(IN int p_entityOrResearchType, OUT bool &p_satisfied, IN PlayerType p_playerType = PLAYER_Self);
         CheckReturn bool IsEntityCloseToPoint(IN const TID p_entityId, IN const Vector2& p_point, IN const unsigned p_maxDistance);
         CheckReturn void GetPrerequisites(int p_entityOrResearchType, PlayerType p_playerType, vector<Expression*>& p_prerequisites);
-
-#define g_Assist EngineAssist::Instance()
     };
 }
 
