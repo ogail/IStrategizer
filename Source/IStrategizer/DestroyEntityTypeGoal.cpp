@@ -43,6 +43,7 @@ void DestroyEntityTypeGoal::Copy(IClonable* p_dest)
     DestroyEntityTypeGoal* m_dest = static_cast<DestroyEntityTypeGoal*>(p_dest);
 
     m_dest->_forceDescription   = _forceDescription;
+    _cachedColony.Copy(&m_dest->_cachedColony);
 }
 //----------------------------------------------------------------------------------------------
 bool DestroyEntityTypeGoal::SuccessConditionsSatisfied(RtsGame* pRtsGame)

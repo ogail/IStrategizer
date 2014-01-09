@@ -14,7 +14,6 @@
 #include "GameTechTree.h"
 #include "GameType.h"
 #include "GameEntity.h"
-#include "AdapterEx.h"
 
 using namespace IStrategizer;
 
@@ -51,7 +50,7 @@ void MoveEntityAction::HandleMessage(RtsGame *pRtsGame, Message* p_msg, bool& p_
 //////////////////////////////////////////////////////////////////////////
 bool MoveEntityAction::AliveConditionsSatisfied(RtsGame* pRtsGame)
 {
-    bool success = g_Assist.DoesEntityObjectExist(_entityId);
+    bool success = EngineAssist::Instance(g_Game).DoesEntityObjectExist(_entityId);
 
     if(success)
     {
@@ -65,14 +64,14 @@ bool MoveEntityAction::AliveConditionsSatisfied(RtsGame* pRtsGame)
 //////////////////////////////////////////////////////////////////////////
 bool MoveEntityAction::SuccessConditionsSatisfied(RtsGame* pRtsGame)
 {
-    bool success = g_Assist.DoesEntityObjectExist(_entityId);
+    bool success = EngineAssist::Instance(g_Game).DoesEntityObjectExist(_entityId);
 
     if(success)
     {
         GameEntity* entity = pRtsGame->Self()->GetEntity(_entityId);
         assert(entity);
 
-        success = g_Assist.IsEntityCloseToPoint(_entityId, _position, ENTITY_DEST_ARRIVAL_THRESHOLD_DISTANCE)
+        success = EngineAssist::Instance(g_Game).IsEntityCloseToPoint(_entityId, _position, ENTITY_DEST_ARRIVAL_THRESHOLD_DISTANCE)
             && entity->Attr(EOATTR_IsMoving) == false;
     }
 
@@ -83,7 +82,7 @@ bool MoveEntityAction::ExecuteAux(RtsGame* pRtsGame, const WorldClock& p_clock)
 {
     AbstractAdapter *pAdapter = g_OnlineCaseBasedPlanner->Reasoner()->Adapter();
 
-    _entityId = pAdapter->GetEntityObjectId(g_Game->Self()->GetWorkerType(),AdapterEx::WorkerStatesRankVector);
+    _entityId = pAdapter->AdaptWorkerForBuild();
     assert(_entityId != INVALID_TID);
 
     _position = pAdapter->AdaptPosition(Parameters());
@@ -109,6 +108,6 @@ void MoveEntityAction::InitializePostConditions()
 void MoveEntityAction::InitializePreConditions()
 {
     /*
-    return g_Assist.DoesEntityObjectExist(_entityId);
+    return EngineAssist::Instance(g_Game).DoesEntityObjectExist(_entityId);
     */
 }

@@ -3,6 +3,7 @@
 #define DESTROYENTITYTYPEGOAL_H
 
 #include "GoalEx.h"
+#include "Colony.h"
 
 namespace IStrategizer
 {
@@ -14,6 +15,7 @@ namespace IStrategizer
 
     private:
         ForceDescriptionEx _forceDescription;
+        Colony _cachedColony;
 
     public:
         DestroyEntityTypeGoal();

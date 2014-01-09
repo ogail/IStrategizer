@@ -13,7 +13,6 @@
 #include "GameTechTree.h"
 #include "GameType.h"
 #include "GameEntity.h"
-#include "AdapterEx.h"
 #include "EntityClassExist.h"
 #include "And.h"
 #include "Not.h"
@@ -45,7 +44,7 @@ bool AttackEntityAction::ExecuteAux(RtsGame* pRtsGame, const WorldClock& p_clock
     bool executed = false;
     
     // Adapt attacker
-    _attackerId = pAdapter->GetEntityObjectId(attackerType,AdapterEx::AttackerStatesRankVector);
+    _attackerId = pAdapter->AdaptAttacker(attackerType);
 
     if (_attackerId != INVALID_TID)
     {
@@ -72,7 +71,7 @@ void AttackEntityAction::HandleMessage(RtsGame *pRtsGame, Message* p_msg, bool& 
 //----------------------------------------------------------------------------------------------
 bool AttackEntityAction::AliveConditionsSatisfied(RtsGame* pRtsGame)
 {
-    return g_Assist.DoesEntityObjectExist(_attackerId);
+    return EngineAssist::Instance(g_Game).DoesEntityObjectExist(_attackerId);
 }
 //----------------------------------------------------------------------------------------------
 bool AttackEntityAction::SuccessConditionsSatisfied(RtsGame* pRtsGame)

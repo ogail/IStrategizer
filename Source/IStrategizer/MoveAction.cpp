@@ -11,7 +11,6 @@
 #include "EntityClassExist.h"
 #include "EntityClassNearArea.h"
 #include <math.h>
-#include "AdapterEx.h"
 
 using namespace IStrategizer;
 using namespace Serialization;
@@ -39,20 +38,13 @@ void MoveAction::HandleMessage(RtsGame *pRtsGame, Message* p_msg, bool& p_consum
 //----------------------------------------------------------------------------------------------
 bool MoveAction::AliveConditionsSatisfied(RtsGame* pRtsGame)
 {
-    bool satisfied = false;
-    if (g_Assist.DoesEntityObjectExist(_entityId))
-    {
-        GameEntity* pEntity = pRtsGame->Self()->GetEntity(_entityId);
-        assert(pEntity);
-        satisfied = (bool)pEntity->Attr(EOATTR_IsMoving);
-    }
 
-    return satisfied;
+    return (EngineAssist::Instance(g_Game).DoesEntityObjectExist(_entityId) && _pEntity->Attr(EOATTR_IsMoving) > 0);
 }
 //----------------------------------------------------------------------------------------------
 bool MoveAction::SuccessConditionsSatisfied(RtsGame* pRtsGame)
 {
-    return g_Assist.IsEntityCloseToPoint(_entityId, _position, ENTITY_DEST_ARRIVAL_THRESHOLD_DISTANCE);
+    return EngineAssist::Instance(g_Game).IsEntityCloseToPoint(_entityId, _position, ENTITY_DEST_ARRIVAL_THRESHOLD_DISTANCE);
 }
 //----------------------------------------------------------------------------------------------
 void MoveAction::InitializeAddressesAux()
@@ -66,7 +58,7 @@ bool MoveAction::ExecuteAux(RtsGame* pRtsGame, const WorldClock& p_clock)
     EntityClassType entityType = (EntityClassType)_params[PARAM_EntityClassId];
 
     //Adapt Entity
-    _entityId = pAdapter->GetEntityObjectId(entityType, AdapterEx::EntityToMoveStatesRankVector);
+    _entityId = pAdapter->AdaptEntityToMove(entityType);
     bool executed = false;
 
     if(_entityId != INVALID_TID)

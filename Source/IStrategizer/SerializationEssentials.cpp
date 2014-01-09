@@ -89,6 +89,8 @@ void SerializationEssentials::Init()
     g_ObjectFactory.AddPrototype(new CaseEx);
     g_ObjectFactory.AddPrototype(new GameStateEx);
 
+    g_ObjectFactory.AddPrototype(new Colony);
+
     g_ObjectFactory.AddPrototype(new CollectResourceGoal);
     g_ObjectFactory.AddPrototype(new TrainForceGoal);
     g_ObjectFactory.AddPrototype(new DeployArmyGoal);
