@@ -28,9 +28,11 @@ DestroyEntityTypeGoal::DestroyEntityTypeGoal(const PlanStepParameters& p_paramet
 void DestroyEntityTypeGoal::InitializePostConditions()
 {
     EntityClassType targetType = (EntityClassType)_params[PARAM_TargetEntityClassId];
-    int amount = _params[PARAM_Amount];
     
-    _postCondition = new Not(new EntityClassExist(PLAYER_Enemy, targetType, amount, true));
+    std::vector<Expression*> expressions;
+    expressions.push_back(new EntityClassExist(PLAYER_Enemy, targetType, 0, true));
+
+    _postCondition = new And(expressions);
 }   
 //----------------------------------------------------------------------------------------------
 void DestroyEntityTypeGoal::Copy(IClonable* p_dest)
@@ -50,7 +52,7 @@ void DestroyEntityTypeGoal::HandleMessage(RtsGame& game, Message* p_msg, bool& p
     if (p_msg->MessageTypeID() == MSG_EntityDestroy)
     {
         EntityDestroyMessage* pMsg = static_cast<EntityDestroyMessage*>(p_msg);
-        assert(pMsg && pMsg->Data());
+        _ASSERTE(pMsg && pMsg->Data());
 
         if (pMsg->Data()->OwnerId != PLAYER_Enemy)
             return;

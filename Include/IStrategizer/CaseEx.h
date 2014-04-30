@@ -11,7 +11,6 @@
 namespace IStrategizer
 {
     class GoalEx;
-    class PlanGraph;
     class RtsGame;
 
     ///> class=CaseEx
@@ -27,7 +26,8 @@ namespace IStrategizer
         
         CaseEx(OlcbpPlan* pPlan, GoalEx* pGoal, RtsGame* pGameState, int trialCount, int successCount)
             : m_pGoal(pGoal),
-            m_pGameState(pGameState),
+            // FIXME: set to the actual RtsGame object when serializing RtsGame code is ready
+            m_pGameState(nullptr),
             m_trialCount(trialCount),
             m_successCount(successCount),
             m_pPlan(pPlan) {}

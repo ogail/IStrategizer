@@ -15,7 +15,7 @@ void BwapiClient::InitClient()
         return;
 
     m_hBwapiThread = chBEGINTHREADEX(nullptr, 0, BwapiThreadStart, this, 0, nullptr);
-    assert(m_hBwapiThread);
+    _ASSERTE(m_hBwapiThread);
 
     if (m_hBwapiThread)
         m_bClientInitialized = true;
@@ -101,7 +101,7 @@ void BwapiClient::ShutdownClient()
     printf("Shutting down ...\n");
 
     dwWait = WaitForSingleObject(m_hBwapiThread, INFINITE);
-    assert(dwWait == WAIT_OBJECT_0);
+    _ASSERTE(dwWait == WAIT_OBJECT_0);
 
     CloseHandle(m_hBwapiThread);
 }
@@ -151,7 +151,7 @@ void BwapiClient::HandleGameEvents()
             OnUnitMorph(e->getUnit());
             break;
         case EventType::UnitRenegade:
-            OnUniRenegade(e->getUnit());
+            OnUnitRenegade(e->getUnit());
             break;
         case EventType::UnitCreate:
             OnUnitCreate(e->getUnit());

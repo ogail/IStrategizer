@@ -153,7 +153,7 @@ GameResearch* StarCraftGame::FetchResearch(ResearchType p_id)
         research = new StarCraftResearch(upgrade);
     }
 
-    assert(research);
+    _ASSERTE(research);
     research->Initialize();
 
     return research;
@@ -201,7 +201,7 @@ int StarCraftGame::GetMaxForceSize()
     return 12;
 }
 //----------------------------------------------------------------------------------------------
-int StarCraftGame::GetMaxTrainingQueueCount()
+size_t StarCraftGame::GetMaxTrainingQueueCount()
 {
     return 5;
 }

@@ -27,7 +27,7 @@ TrainArmyGoal::TrainArmyGoal(const PlanStepParameters& p_parameters): GoalEx(GOA
 void TrainArmyGoal::InitializePostConditions()
 {
     vector<Expression*> m_terms;
-    m_terms.push_back(new EntityClassExist(PLAYER_Self, (EntityClassType)_params[PARAM_EntityClassId], _params[PARAM_ForceSizeId], true));
+    m_terms.push_back(new EntityClassExist(PLAYER_Self, (EntityClassType)_params[PARAM_EntityClassId], DONT_CARE, true));
     _postCondition = new And(m_terms);
 }
 //----------------------------------------------------------------------------------------------
@@ -67,14 +67,14 @@ void TrainArmyGoal::HandleMessage(RtsGame& game, Message* p_msg, bool& p_consume
     if (p_msg->MessageTypeID() == MSG_EntityCreate)
     {
         EntityCreateMessage* pMsg = static_cast<EntityCreateMessage*>(p_msg);
-        assert(pMsg && pMsg->Data());
+        _ASSERTE(pMsg && pMsg->Data());
 
         if (pMsg->Data()->OwnerId != PLAYER_Self)
             return;
 
         TID entityId = pMsg->Data()->EntityId;
         GameEntity *pEntity = game.Self()->GetEntity(entityId);
-        assert(pEntity);
+        _ASSERTE(pEntity);
         EntityClassType entityType = pEntity->Type();
         EntityClassType requiredEntityType = (EntityClassType)_params[PARAM_EntityClassId];
         if (entityType == requiredEntityType)
