@@ -90,6 +90,8 @@ void ClientMain::InitIStrategizer()
         m_pBldngDataIMWdgt->SetIM(g_IMSysMgr.GetIM(IM_BuildingData));
         m_pGrndCtrlIMWdgt->SetIM(g_IMSysMgr.GetIM(IM_GroundControl));
 
+        g_Database.Init();
+
         if (!m_pIStrategizer->Init())
         {
             LogError("Failed to initialize IStrategizer");
